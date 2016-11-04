@@ -41,5 +41,9 @@ datasource:
        min-idle: 10
        max-wait: 3000
       
+multipart:
+  maxFileSiz: 1MB
+  maxRequestSize: 1MB
+      
 
     

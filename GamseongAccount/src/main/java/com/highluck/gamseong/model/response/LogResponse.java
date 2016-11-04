@@ -2,6 +2,8 @@ package com.highluck.gamseong.model.response;
 
 import org.springframework.stereotype.Component;
 
+import com.highluck.gamseong.model.entity.User;
+
 @Component
 public class LogResponse {
 
@@ -13,6 +15,7 @@ public class LogResponse {
 	private String result;
 	private String reason;
 	private String tokenKey;
+	private User user;
 	
 	public String getResult() {
 		return result;
@@ -32,4 +35,11 @@ public class LogResponse {
 	public void setTokenKey(String token) {
 		this.tokenKey = token;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }

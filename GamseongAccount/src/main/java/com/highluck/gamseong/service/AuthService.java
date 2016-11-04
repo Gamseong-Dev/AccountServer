@@ -22,9 +22,9 @@ public class AuthService {
 	@Autowired
 	private LibraryContainer library;
 	
-	@Transactional
+	@Transactional(readOnly=false)
 	public boolean mailAuth(UserValue value){
-		
+		System.out.println(value.getAccount()+"-----------");
 		User user = userInterface.findByAccount(value.getAccount());
 		
 		if(user.getTokenKey().equals(value.getTokenKey())){

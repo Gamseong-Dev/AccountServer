@@ -39,17 +39,18 @@ public class UserLogService {
 		UserLog log = new UserLog();
 		
 		if(user.getPassword().equals(library.getEncryption().getEncSHA256(value.getPassword()))){
+			log.setAccount(value.getAccount());
+			log.setLoginTimeStamp(Timestamp.valueOf(LocalDateTime.now()));			
+			user.setTokenKey(logResponse.getTokenKey());
+			
 			logResponse.setResult(user.getEmailAuth().equals("Y") ? logResponse.SUCCESS: logResponse.HALF);
 			logResponse.setTokenKey(library.getEncryption().getEncSHA256(value.getAccount() + library.getAuthCodeCreator().SecurityCode()));
-			log.setAccount(value.getAccount());
-			log.setLoginTimeStamp(Timestamp.valueOf(LocalDateTime.now()));
-		
-			user.setTokenKey(logResponse.getTokenKey());
+			logResponse.setUser(user);
 			userLogRepository.save(log);		
 		}
-		else{
+		else{	
 			logResponse.setResult(logResponse.FAIL);
-			logResponse.setReason("아이디 또는 비밀번호가 틀립니다.");
+			logResponse.setReason("아이디 또는 비밀번호가 틀립니다.");	
 		}
 		return logResponse;
 	}
@@ -61,10 +62,9 @@ public class UserLogService {
 		
 		if(user.getTokenKey().equals(value.getTokenKey())){
 			user.setTokenKey("GG");
-	
 			logResponse.setResult(logResponse.SUCCESS);
 			logResponse.setReason("로그아웃");
-			logResponse.setTokenKey(user.getTokenKey());
+			logResponse.setTokenKey("GG");
 		}
 		else{
 			logResponse.setResult(logResponse.FAIL);

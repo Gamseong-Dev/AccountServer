@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.highluck.gamseong.model.entity.User;
 import com.highluck.gamseong.model.response.CommonResponse;
+import com.highluck.gamseong.model.value.UserPostValue;
 import com.highluck.gamseong.service.UserService;
 
 @RestController
@@ -21,5 +22,11 @@ public class UserController {
 	public CommonResponse save(@RequestBody User user) throws Throwable{
 		
 		return userService.save(user);
+	}
+	
+	@RequestMapping(value = "/{user.id}", method = RequestMethod.PUT)
+	public CommonResponse set(@RequestBody UserPostValue value) throws Throwable{
+		
+		return userService.set(value);
 	}
 }

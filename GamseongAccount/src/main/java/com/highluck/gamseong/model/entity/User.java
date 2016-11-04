@@ -49,6 +49,9 @@ public class User {
 	@Column(name = "TOKEN_KEY")
 	private String tokenKey;
 	
+	@Column
+	private String gender;
+	
 	public User(){}
 	public User(String id){
 		this.id = id;
@@ -139,6 +142,12 @@ public class User {
 
 	public void setTokenKey(String tokenKey) {
 		this.tokenKey = tokenKey;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.highluck.gamseong.common.library.AuthCodeCreator;
 import com.highluck.gamseong.common.library.EmailSender;
 import com.highluck.gamseong.common.library.Encryption;
+import com.highluck.gamseong.common.library.FileUpload;
 
 @Component("library")
 public class LibraryContainer {
@@ -16,6 +17,9 @@ public class LibraryContainer {
 	private Encryption encryption;
 	@Autowired
 	private EmailSender emailSender;
+	@Autowired
+	private FileUpload fileUpload;
+	
 	public AuthCodeCreator getAuthCodeCreator() {
 		return authCodeCreator;
 	}
@@ -34,4 +38,11 @@ public class LibraryContainer {
 	public void setEmailSender(EmailSender emailSender) {
 		this.emailSender = emailSender;
 	}
+	public FileUpload getFileUpload() {
+		return fileUpload;
+	}
+	public void setFileUpload(FileUpload fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+	
 }

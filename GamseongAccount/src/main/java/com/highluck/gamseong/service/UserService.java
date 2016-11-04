@@ -1,5 +1,6 @@
 package com.highluck.gamseong.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -13,13 +14,14 @@ import com.highluck.gamseong.common.LibraryContainer;
 import com.highluck.gamseong.common.library.MailMessage;
 import com.highluck.gamseong.model.entity.User;
 import com.highluck.gamseong.model.response.CommonResponse;
+import com.highluck.gamseong.model.value.UserPostValue;
 import com.highluck.gamseong.repository.UserRepository;
 
 @Service
 public class UserService {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
-	public final static String MAIL_AUTH = "인증메일 입니다.";
+	public final static String MAIL_AUTH = "감성여행 인증메일 입니다.";
 	
 	@Autowired
 	private LibraryContainer library;
@@ -59,6 +61,20 @@ public class UserService {
 		
 			commonResponse.setResult(commonResponse.SUCCESS);
 		}
+		return commonResponse;
+	}
+	
+	@Transactional(readOnly = false)
+	public CommonResponse set(UserPostValue value) throws IOException{
+		
+		if(value.getSourceFile() != null){
+			value.getUser().setImageUrl(
+					library.getFileUpload().upload(value.getSourceFile(), value.getPath()));
+		}
+
+		userRepository.save(value.getUser());	
+		commonResponse.setResult(commonResponse.SUCCESS);
+		
 		return commonResponse;
 	}
 
