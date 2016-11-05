@@ -22,7 +22,7 @@ spring:
 datasource:
     masterDB:
        driver-class-name: "com.mysql.jdbc.Driver"
-       url: "jdbc:mysql://52.78.110.20:3306/gamseong?useUnicode=true&characterEncoding=UTF-8"
+       url: "jdbc:mysql://52.78.110.20:3306/gamseong?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
        username: 'root'
        password: gamseong1234
        initial-size: 10
@@ -32,7 +32,7 @@ datasource:
        max-wait: 3000
     slaveDB:
        driver-class-name: "com.mysql.jdbc.Driver"
-       url: "jdbc:mysql://52.78.110.20:3306/gamseong?useUnicode=true&characterEncoding=UTF-8"
+       url: "jdbc:mysql://52.78.110.20:3306/gamseong?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
        username: 'root'
        password: gamseong1234
        initial-size: 10
