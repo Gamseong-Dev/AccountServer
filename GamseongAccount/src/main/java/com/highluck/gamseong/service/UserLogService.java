@@ -35,16 +35,17 @@ public class UserLogService {
 	@Transactional(readOnly = false)
 	public LogResponse login(UserValue value) throws Throwable{
 		
-		User user = userRepository.findByAccount(value.getAccount());
+		User user = userRepository.findByAccountAndFacebookUser(value.getAccount(),"N");
 		UserLog log = new UserLog();
 		
 		if(user.getPassword().equals(library.getEncryption().getEncSHA256(value.getPassword()))){
 			log.setAccount(value.getAccount());
 			log.setLoginTimeStamp(Timestamp.valueOf(LocalDateTime.now()));			
-			user.setTokenKey(logResponse.getTokenKey());
 			
+			logResponse.setTokenKey(library.getEncryption().getEncSHA256(value.getAccount() + library.getAuthCodeCreator().SecurityCode()));			
+			user.setTokenKey(logResponse.getTokenKey());
+
 			logResponse.setResult(user.getEmailAuth().equals("Y") ? logResponse.SUCCESS: logResponse.HALF);
-			logResponse.setTokenKey(library.getEncryption().getEncSHA256(value.getAccount() + library.getAuthCodeCreator().SecurityCode()));
 			logResponse.setUser(user);
 			userLogRepository.save(log);		
 		}
@@ -71,6 +72,46 @@ public class UserLogService {
 			logResponse.setReason("잘못된 정보");
 			
 		}
+		return logResponse;
+	}
+	
+	@Transactional
+	public LogResponse facebookLogin(User value) throws Exception{
+		User user;
+		UserLog log = new UserLog();
+		
+		value.setTokenKey(library.getEncryption().getEncSHA256(value.getAccount() 
+				+ library.getAuthCodeCreator().SecurityCode()));
+		try{
+			
+			user = userRepository.findById(value.getId());
+			user.setTokenKey(value.getTokenKey());
+			logResponse.setUser(user);
+			
+		}catch(NullPointerException e){
+			
+			if(value.getGender().equals("male")) value.setGender("M");
+			else if(value.getGender().equals("female")) value.setGender("F");
+			
+			value.setCreationTime(Timestamp.valueOf(LocalDateTime.now()));
+			value.setStatusCode("Y");
+			
+			value.setEmailAuth("N");	
+			value.setFacebookUser("Y");
+			value.setPassword("facebook");
+			
+			userRepository.save(value);
+			
+			logResponse.setUser(value);	
+		}
+		
+		logResponse.setTokenKey(value.getTokenKey());
+		logResponse.setResult(logResponse.SUCCESS);
+		
+		log.setAccount(value.getAccount());
+		log.setLoginTimeStamp(Timestamp.valueOf(LocalDateTime.now()));	
+		userLogRepository.save(log);
+		
 		return logResponse;
 	}
 	

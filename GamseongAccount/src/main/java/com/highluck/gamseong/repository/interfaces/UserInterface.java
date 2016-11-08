@@ -8,7 +8,11 @@ import com.highluck.gamseong.model.entity.User;
 @Component
 public interface UserInterface extends CrudRepository<User, String>{
 
+	 User findByAccountAndFacebookUser(String account, String facebookUser);
+	
 	 User findByAccount(String account);
 	 
 	 User save(User user);
+	 
+	 User findById(String id);
 }

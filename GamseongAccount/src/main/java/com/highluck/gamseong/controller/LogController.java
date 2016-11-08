@@ -1,5 +1,7 @@
 package com.highluck.gamseong.controller;
 
+import java.util.concurrent.Callable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,5 +32,13 @@ public class LogController {
 	public LogResponse logout(@RequestBody UserValue value) throws Throwable{
 		
 		return userLogService.logout(value);
+	}
+	
+	@RequestMapping(value = "/facebook", method = RequestMethod.POST)
+	public Callable<LogResponse> facebookLogin(@RequestBody User value) throws Throwable{
+		
+		return ()-> {
+			return userLogService.facebookLogin(value);
+		};
 	}
 }

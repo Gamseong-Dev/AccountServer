@@ -52,6 +52,9 @@ public class User {
 	@Column
 	private String gender;
 	
+	@Column(name = "FACEBOOK_USER")
+	private String facebookUser;
+	
 	public User(){}
 	public User(String id){
 		this.id = id;
@@ -149,5 +152,10 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
+	public String getFacebookUser() {
+		return facebookUser;
+	}
+	public void setFacebookUser(String facebookUser) {
+		this.facebookUser = facebookUser;
+	}
 }

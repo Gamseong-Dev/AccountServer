@@ -77,5 +77,4 @@ public class UserService {
 		
 		return commonResponse;
 	}
-
 }

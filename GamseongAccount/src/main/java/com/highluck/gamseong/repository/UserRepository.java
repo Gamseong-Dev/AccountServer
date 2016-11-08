@@ -25,9 +25,19 @@ public class UserRepository {
 		userInterface.save(user);
 	}
 	
+	public User findByAccountAndFacebookUser(String account,String facebookUser){
+		
+		return userInterface.findByAccountAndFacebookUser(account , facebookUser);
+	}
+	
 	public User findByAccount(String account){
 		
 		return userInterface.findByAccount(account);
+	}
+	
+	public User findById(String id){
+		
+		return userInterface.findById(id);
 	}
 	
 	public long count(){

@@ -25,7 +25,7 @@ public class AuthService {
 	@Transactional(readOnly=false)
 	public boolean mailAuth(UserValue value){
 		System.out.println(value.getAccount()+"-----------");
-		User user = userInterface.findByAccount(value.getAccount());
+		User user = userInterface.findByAccountAndFacebookUser(value.getAccount(),"N");
 		
 		if(user.getTokenKey().equals(value.getTokenKey())){
 			user.setEmailAuth("Y");
@@ -37,7 +37,7 @@ public class AuthService {
 	@Transactional
 	public CommonResponse mailAuthSend(UserValue value) throws Exception{
 		
-		User user = userInterface.findByAccount(value.getAccount());
+		User user = userInterface.findByAccountAndFacebookUser(value.getAccount(),"N");
 		
 		if(user.getEmailAuth().equals("N")){
 			user.setTokenKey(library.getEncryption().getEncSHA256(user.getAccount() + library.getAuthCodeCreator().SecurityCode()));

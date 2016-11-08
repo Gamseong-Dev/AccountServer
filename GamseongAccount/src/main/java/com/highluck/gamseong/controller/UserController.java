@@ -1,5 +1,7 @@
 package com.highluck.gamseong.controller;
 
+import java.util.concurrent.Callable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +21,20 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public CommonResponse save(@RequestBody User user) throws Throwable{
+	public Callable<CommonResponse> save(@RequestBody User user){
 		
-		return userService.save(user);
+		return () -> {
+			try {
+				return userService.save(user);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				CommonResponse response = new CommonResponse();
+				response.setResult("fail");
+				response.setReason(e.toString());
+				return null;
+			}
+		};
 	}
 	
 	@RequestMapping(value = "/{user.id}", method = RequestMethod.PUT)

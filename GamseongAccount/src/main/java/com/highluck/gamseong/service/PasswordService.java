@@ -33,7 +33,7 @@ public class PasswordService {
 	@Transactional
 	public CommonResponse mailPassword(UserValue value) throws Throwable{
 					
-			User user = userInterface.findByAccount(value.getAccount());
+			User user = userInterface.findByAccountAndFacebookUser(value.getAccount(),"N");
 			user.setTokenKey(library.getEncryption().getEncSHA256(user.getAccount() + library.getAuthCodeCreator().SecurityCode()));
 			
 			MailMessage mail = new MailMessage();
@@ -52,7 +52,7 @@ public class PasswordService {
 	@Transactional
 	public boolean changePassword(UserValue value) throws Exception{
 		
-		User user = userInterface.findByAccount(value.getAccount());
+		User user = userInterface.findByAccountAndFacebookUser(value.getAccount(),"N");
 		
 		if(user.getTokenKey().equals(value.getTokenKey())){
 			user.setPassword(library.getEncryption().getEncSHA256(value.getPassword()));
